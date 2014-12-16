@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Zend Framework (http://framework.zend.com/)
  *
@@ -9,25 +10,27 @@
 
 namespace Tropa;
 
+use Tropa\Model\Setor;
+use Tropa\Model\SetorTable;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
-class Module
-{
-    public function onBootstrap(MvcEvent $e)
-    {
-        $eventManager        = $e->getApplication()->getEventManager();
+class Module {
+
+    public function onBootstrap(MvcEvent $e) {
+        $e->getApplication()->getServiceManager()->get('translator');
+        $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
     }
 
-    public function getConfig()
-    {
+    public function getConfig() {
         return include __DIR__ . '/config/module.config.php';
     }
 
-    public function getAutoloaderConfig()
-    {
+    public function getAutoloaderConfig() {
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
@@ -36,4 +39,23 @@ class Module
             ),
         );
     }
+    
+    public function getServiceConfig() {
+        return array(
+            'factories' => array(
+                'Tropa\Model\SetorTable' => function($sm) {
+                    $tableGateway = $sm->get('SetorTableGateway');
+                    $table = new SetorTable($tableGateway);
+                    return $table;
+                },
+                'SetorTableGateway' => function($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Setor());
+                    return new TableGateway('setor', $dbAdapter, null, $resultSetPrototype);
+                }
+            )
+        );
+    }
+
 }

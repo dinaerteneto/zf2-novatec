@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Zend Framework (http://framework.zend.com/)
  *
@@ -12,21 +13,34 @@ namespace Tropa\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class SetorController extends AbstractActionController
-{
+class SetorController extends AbstractActionController {
+
+    protected $setorTable;
+
     public function indexAction() {
-        return new ViewModel();
+        return new ViewModel(array(
+            'setores' => $this->getSetorTable()->fetchAll()
+        ));
     }
-    
+
     public function addAction() {
         
     }
-    
+
     public function editAction() {
         
     }
-    
+
     public function deleteAction() {
         
     }
+
+    public function getSetorTable() {
+        if (!$this->setorTable) {
+            $sm = $this->getServiceLocator();
+            $this->setorTable = $sm->get('Tropa\Model\SetorTable');
+        }
+        return $this->setorTable;
+    }
+
 }
