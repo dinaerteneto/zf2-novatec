@@ -15,7 +15,7 @@ class SetorForm extends Form {
                 'type' => 'text'
             ),
             'options' => array(
-                'label' => 'Código'
+                'label' => 'CÃ³digo'
             )
         ));
         $this->add(array(
