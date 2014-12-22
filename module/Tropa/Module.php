@@ -37,6 +37,7 @@ class Module {
         );
         AbstractValidator::setDefaultTranslator($translator);
          */
+        $GLOBALS['sm'] = $e->getApplication()->getServiceManager();
     }
 
     public function getConfig() {
