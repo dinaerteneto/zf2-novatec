@@ -32,7 +32,7 @@ class LanternaForm extends Form {
         ));
         $this->add(array(
             'name' => 'submit',
-            'attributtes' => array(
+            'attributes' => array(
                 'type' => 'submit',
                 'value' => 'Gravar',
                 'id' => 'submitbutton'
