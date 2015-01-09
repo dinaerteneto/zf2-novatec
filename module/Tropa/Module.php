@@ -49,11 +49,12 @@ class Module {
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                    'Fgsl' => realpath(__DIR__.'/../../vendor/fgslframework/fgslframework/library/Fgsl')
                 ),
             ),
         );
     }
-
+    
     public function getServiceConfig() {
         return array(
             'factories' => array(
@@ -62,17 +63,20 @@ class Module {
                     $table = new LanternaTable($tableGateway);
                     return $table;
                 },
+                    
                 'Tropa\Model\SetorTable' => function($sm) {
                     $tableGateway = $sm->get('SetorTableGateway');
                     $table = new SetorTable($tableGateway);
                     return $table;
                 },
+                    
                 'LanternaTableGateway' => function($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Lanterna());
                     return new TableGateway('lanterna', $dbAdapter, null, $resultSetPrototype);                    
                 },
+                    
                 'SetorTableGateway' => function($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();

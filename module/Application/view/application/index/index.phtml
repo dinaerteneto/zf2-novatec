@@ -3,7 +3,4 @@ $title = 'Cadastros';
 $this->headTitle($title);
 ?>
 <h1><?=$this->escapeHtml($title);?></h1>
-<ul>
-    <li><a href="<?=$this->url('lanterna');?>">Lanternas verdes</a></li>
-    <li><a href="<?=$this->url('setor');?>">Setores espaciais</a></li>
-</ul>
+<?=$this->navigation('Navigation')->menu();?>

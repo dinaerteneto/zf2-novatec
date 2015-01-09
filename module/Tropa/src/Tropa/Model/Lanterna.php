@@ -2,10 +2,13 @@
 
 namespace Tropa\Model;
 
-use Zend\InputFilter\Factory as InputFactory;
-use Zend\InputFilter\InputFilter;
-use Zend\InputFilter\InputFilterAwareInterface;
-use Zend\InputFilter\InputFilterInterface;
+use Fgsl\InputFilter\InputFilter;
+use Fgsl\Model\AbstractModel;
+use Zend\Filter\Int;
+use Zend\Filter\StripTags;
+use Zend\Filter\StringTrim;
+use Zend\Validator\Digits;
+use Zend\Validator\StringLength;
 
 class Lanterna {
     public $codigo;
@@ -24,38 +27,15 @@ class Lanterna {
     public function getInputFilter() {
         if(!$this->inputFilter) {
             $inputFilter = new InputFilter();
-            $factory = new InputFactory();
-            $inputFilter->add($factory->createInput(array(
-                'name' => 'nome',
-                'require' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim')
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'enconding' => 'UTF-8',
-                            'min' => 2,
-                            'max' => 30
-                        )
-                    )
-                )
-            )));
-            $inputFilter->add($factory->createInput(array(
-                'name' => 'codigo_setor',
-                'required' => true,
-                'filters' => array(
-                    array('name' => 'Int')
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'Digits'
-                    )
-                )
-            )));
+            $inputFilter->addFilter('nome', new StripTags());
+            $inputFilter->addFilter('nome', new StringTrim());
+            $inputFilter->addValidator('nome', new StringLength(array('encoding' => 'UTF-8', 'min' => 2, 'max' => 30)));
+            
+            $inputFilter->addFilter('codigo_setor', new Int());
+            $inputFilter->addValidator('codigo_setor', new Digits());
+            
             $this->inputFilter = $inputFilter;
+            
         }
         return $this->inputFilter;
     }

@@ -1,10 +1,6 @@
-<?php
-$title = 'Setores';
-$this->headTitle($title);
-?>
 <h1><?= $this->escapeHtml($title); ?></h1>
 <p>
-    <a href="<?= $this->url('setor', array('action' => 'add')); ?>">Novo setor</a>
+    <a href="<?= $this->urlAdd;?>">Novo setor</a>
 </p>
 <table class="table">
     <thead>
@@ -15,15 +11,8 @@ $this->headTitle($title);
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->setores as $setor): ?>
-        <tr>
-            <td><?=$setor->codigo;?></td>
-            <td><?=$this->escapeHtml($setor->nome);?></td>
-            <td>
-                <a href="<?=$this->url('setor', array('action' => 'edit', 'codigo' => $setor->codigo));?>">Editar</a>
-                <a href="<?=$this->url('setor', array('action' => 'delete', 'codigo' => $setor->codigo));?>">Remover</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
+        <?=$this->partialLoop('tropa/setor/setores.phtml', $this->paginator);?>
     </tbody>
 </table>
+<p><?=$this->paginationControl($this->paginator,'Sliding','pagination', array('route' => 'setor'));?></p>
+<p><a href="<?=$this->urlHomepage;?>">Homepage</a></p>

@@ -1,43 +1,20 @@
 <?php
-
 namespace Tropa\Form;
 
-use Zend\Form\Form;
+use Fgsl\Form\AbstractForm;
 
-class LanternaForm extends Form {
+class LanternaForm extends AbstractForm {
 
     protected $setorTable;
 
     public function __construct($name = null) {
         parent::__construct('lanterna');
         $this->setAttribute('method', 'post');
-        $this->add(array(
-            'name' => 'nome',
-            'type' => 'text',
-            'options' => array(
-                'label' => 'Nome'
-            )
-        ));
-        $this->add(array(
-            'name' => 'codigo_setor',
-            'type' => 'select',
-            'options' => array(
-                'label' => 'Setor',
-                'value_options' => $this->getValueOptions()
-            )
-        ));
-        $this->add(array(
-            'name' => 'codigo',
-            'type' => 'hidden'
-        ));
-        $this->add(array(
-            'name' => 'submit',
-            'attributes' => array(
-                'type' => 'submit',
-                'value' => 'Gravar',
-                'id' => 'submitbutton'
-            )
-        ));
+        $this->addElement('nome', 'text', 'Nome');
+        $options = array('value_options' => $this->getValueOptions());
+        $this->addElement('codigo_setor', 'select', 'Setor', null, $options);        
+        $this->addElement('codigo', 'hidden');
+        $this->addElement('submit', 'submit', 'Gravar');
     }
     
     private function getSetorTable() {

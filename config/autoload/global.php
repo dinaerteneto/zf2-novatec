@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Global Configuration Override
  *
@@ -10,7 +11,6 @@
  * control, so do not include passwords or other sensitive information in this
  * file.
  */
-
 return array(
     'db' => array(
         'driver' => 'Pdo',
@@ -21,7 +21,34 @@ return array(
     ),
     'service_manager' => array(
         'factories' => array(
-            'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory'
+            'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
+            'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory'
+        )
+    ),
+    'navigation' => array(
+        'default' => array(
+            array(
+                'label' => 'Setores espaciais',
+                'route' => 'setor',
+                'pages' => array(
+                    array(
+                        'label' => 'Incluir',
+                        'route' => 'setor',
+                        'action' => 'add'
+                    )
+                )
+            ),
+            array(
+                'label' => 'Lanternas verdes',
+                'route' => 'lanterna',
+                'pages' => array(
+                    array(
+                        'label' => 'Incluir',
+                        'route' => 'lanterna',
+                        'action' => 'add'
+                    )
+                )
+            )
         )
     )
 );

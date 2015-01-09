@@ -2,43 +2,19 @@
 
 namespace Tropa\Model;
 
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\ResultSet\ResultSet;
+use Fgsl\Db\TableGateway\AbstractTableGateway;
+use Fgsl\Model\AbstractModel;
 
-class SetorTable {
-    protected $tableGateway;
+class SetorTable extends AbstractTableGateway {
     
-    public function __construct(TableGateway $tableGateway) {
-        $this->tableGateway = $tableGateway;
-    }
+    protected $primaryKey = 'codigo';
     
-    public function fetchAll() {
-        $resultSet = $this->tableGateway->select();
-        return $resultSet;
-    }
-    
-    public function getSetor($codigo) {
-        $codigo = (int) $codigo;
-        $rowset = $this->tableGateway->select(array('codigo' => $codigo));
-        $row = $rowset->current();
-        return $row;
-    }
-    
-    public function saveSetor(Setor $setor) {
+    protected function getData(AbstractModel $model) {
         $data = array(
-            'nome' => $setor->nome
+            'codigo' => $model->codigo,
+            'nome' => $model->nome
         );
-        $codigo = $setor->codigo;
-        if(!$this->getSetor($codigo)) {
-            $data['codigo'] = $codigo;
-            $this->tableGateway->insert($data);
-        } else {
-            $this->tableGateway->update($data, array('codigo' => $codigo));
-        }
+        return $data;
     }
     
-    public function deleteSetor($codigo) {
-        $this->tableGateway->delete(array('codigo' => $codigo));
-    }
 }
